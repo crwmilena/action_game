@@ -6,6 +6,7 @@ public class ButtonsMenu : MonoBehaviour
 {
     public void ToGame()
     {
+        Time.timeScale = 1f;
         SceneManager.LoadScene(1);
     }
 
