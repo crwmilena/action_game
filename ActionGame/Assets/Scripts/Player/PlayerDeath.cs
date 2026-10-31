@@ -1,14 +1,16 @@
 using UnityEngine;
+using TMPro;
 
 public class PlayerDeath : MonoBehaviour
 {
     [SerializeField] private GameObject diedPanel;
+    [SerializeField] private TextMeshProUGUI finalScoreText;
     [SerializeField] private PlayerHealth playerHealth;
 
     private void Start()
     {
         if (playerHealth != null)
-            playerHealth.OnDied += HandleDeath;
+            playerHealth.OnDied += HandleDeath; //при смерти вызываем хд
     }
 
     private void OnDestroy()
@@ -27,5 +29,10 @@ public class PlayerDeath : MonoBehaviour
 
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
+
+        if (ScoreManager.Instance != null && finalScoreText != null)
+        {
+            finalScoreText.text = "Your result: " + ScoreManager.Instance.GetKills();
+        }
     }
 }

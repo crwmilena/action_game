@@ -9,6 +9,15 @@ public class EnemyChase : MonoBehaviour
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
+
+        if (player == null)
+        {
+            GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
+            if (playerObj != null)
+            {
+                player = playerObj.transform;
+            }
+        }
     }
 
     void Update()

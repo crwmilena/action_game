@@ -1,5 +1,6 @@
 using UnityEngine;
 using System;
+using System.Collections;
 
 public class PlayerHealth : MonoBehaviour
 {
@@ -11,14 +12,18 @@ public class PlayerHealth : MonoBehaviour
 
     private bool isDead = false;
 
+    private AudioSource audioSource;
+
     [Header("Настройки урона")]
-    [SerializeField] private float invulnerabilityTime = 1f;
+    [SerializeField] private float invulnerabilityTime = 1f; //время неуязвимости
     private float lastDamageTime = -999f;
 
     private void Start()
     {
         currentHP = maxHP;
         OnHealthChanged?.Invoke(currentHP, maxHP);
+
+        audioSource = GetComponent<AudioSource>();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -48,7 +53,7 @@ public class PlayerHealth : MonoBehaviour
             TakeDamage(20f);
         }
     }
-
+   
     public void TakeDamage(float damage)
     {
         if (isDead) return;
@@ -59,6 +64,17 @@ public class PlayerHealth : MonoBehaviour
         currentHP = Mathf.Clamp(currentHP, 0f, maxHP);
 
         OnHealthChanged?.Invoke(currentHP, maxHP);
+
+        if (Camera.main != null && Camera.main.TryGetComponent(out CameraFollow camFollow))
+        {
+            camFollow.ShakeCamera(0.25f, 0.15f);
+        }
+
+        if (audioSource != null)
+        {
+            audioSource.pitch = UnityEngine.Random.Range(0.9f, 1.1f);
+            audioSource.Play();
+        }
 
         if (currentHP <= 0)
         {

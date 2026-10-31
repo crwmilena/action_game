@@ -1,4 +1,5 @@
 using UnityEngine;
+using System;
 
 public class EnemyHealth : MonoBehaviour
 {
@@ -18,6 +19,12 @@ public class EnemyHealth : MonoBehaviour
     private void Die()
     {
         Debug.Log("Враг убит!");
+
+        if (ScoreManager.Instance != null)
+        {
+            ScoreManager.Instance.AddKill();
+        }
+
         Destroy(gameObject);
     }
 }

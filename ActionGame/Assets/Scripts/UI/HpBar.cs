@@ -4,12 +4,12 @@ using UnityEngine.UI;
 public class HpBar : MonoBehaviour
 {
     [SerializeField] private Image bar;
-    [SerializeField] private PlayerHealth playerHealth;
+    [SerializeField] private PlayerHealth playerHealth; //ссылка на скрипт здоровья
 
     private void Start()
     {
         if (playerHealth != null)
-            playerHealth.OnHealthChanged += UpdateBar;
+            playerHealth.OnHealthChanged += UpdateBar; //если меняется здоровье, обновляем бар
     }
 
     private void OnDestroy()
